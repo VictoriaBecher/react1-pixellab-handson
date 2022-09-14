@@ -1,14 +1,14 @@
-const ADD_TO_CART_EVENT = "cart/productAdded";
-const REMOVE_FROM_CART_EVENT = "cart/productRemoved";
-const ADD_TO_WISHLIST_EVENT = "wl/productAdded";
-const REMOVE_FROM_WISHLIST_EVENT = "wl/productRemoved";
+const ADD_TO_CART_EVENT = 'cart/productAdded';
+const REMOVE_FROM_CART_EVENT = 'cart/productRemoved';
+const ADD_TO_WISHLIST_EVENT = 'wl/productAdded';
+const REMOVE_FROM_WISHLIST_EVENT = 'wl/productRemoved';
 
 class NewsletterForm extends React.Component {
   state = {
-    email: "",
-    formMessage: "",
+    email: '',
+    formMessage: '',
     busy: false,
-    successMessage: "",
+    successMessage: '',
   };
 
   validateEmail(email) {
@@ -24,7 +24,7 @@ class NewsletterForm extends React.Component {
 
     if (!this.validateEmail(email)) {
       this.setState({
-        formMessage: "Please use a valid email",
+        formMessage: 'Please use a valid email',
       });
 
       return;
@@ -32,13 +32,13 @@ class NewsletterForm extends React.Component {
 
     this.setState({
       busy: true,
-      formMessage: "",
+      formMessage: '',
     });
 
     setTimeout(() => {
       this.setState({
         busy: false,
-        email: "",
+        email: '',
         successMessage: `Your email ${this.state.email} has been subscribed.`,
       });
     }, 3000);
@@ -74,7 +74,7 @@ class NewsletterForm extends React.Component {
         ></input>
 
         <button title="Subcribe" type="submit" disabled={this.state.busy}>
-          {this.state.busy ? "...loading" : "Submit"}
+          {this.state.busy ? '...loading' : 'Submit'}
         </button>
 
         <div className="form-message">{this.state.formMessage}</div>
@@ -84,11 +84,11 @@ class NewsletterForm extends React.Component {
 }
 
 const newsletterContainer = document.querySelector(
-  ".footer-sign-up-newsletter"
+  '.footer-sign-up-newsletter',
 );
 
 ReactDOM.createRoot(newsletterContainer).render(
-  <NewsletterForm></NewsletterForm>
+  <NewsletterForm></NewsletterForm>,
 );
 
 class AddToCartButton extends React.Component {
@@ -113,7 +113,7 @@ class AddToCartButton extends React.Component {
           detail: {
             productId: this.props.productId,
           },
-        })
+        }),
       );
 
       this.setState({
@@ -126,17 +126,17 @@ class AddToCartButton extends React.Component {
   render() {
     return (
       <a
-        className={`${this.state.added ? "active" : ""}`}
+        className={`${this.state.added ? 'active' : ''}`}
         href=""
         onClick={this.onClick}
-        title={this.state.added === true ? "Remove from cart" : "Add to Cart"}
+        title={this.state.added === true ? 'Remove from cart' : 'Add to Cart'}
       >
         {this.state.added === true ? (
           `In cart: ${this.props.productId}`
         ) : (
           <i className="far fa-plus-square"></i>
         )}
-        {this.state.busy ? <i className="fas fa-spinner"></i> : ""}
+        {this.state.busy ? <i className="fas fa-spinner"></i> : ''}
       </a>
     );
   }
@@ -159,7 +159,7 @@ const AddToWishlistButton = ({ productId }) => {
         detail: {
           productId,
         },
-      }
+      },
     );
 
     dispatchEvent(newEvent);
@@ -179,9 +179,9 @@ const AddToWishlistButton = ({ productId }) => {
 
   return (
     <a
-      className={`${actualState.added ? "active" : ""}`}
+      className={`${actualState.added ? 'active' : ''}`}
       href=""
-      title={actualState.added ? "Remove from Wishlist" : "Add to Wishlist"}
+      title={actualState.added ? 'Remove from Wishlist' : 'Add to Wishlist'}
       onClick={onClick}
     >
       {actualState.added === true ? (
@@ -189,7 +189,7 @@ const AddToWishlistButton = ({ productId }) => {
       ) : (
         <i className="far fa-heart"></i>
       )}
-      {actualState.busy ? <i className="fas fa-spinner"></i> : ""}
+      {actualState.busy ? <i className="fas fa-spinner"></i> : ''}
     </a>
   );
 };
@@ -218,11 +218,11 @@ class ProductControls extends React.Component {
   }
 }
 
-const productTileControls = document.querySelectorAll(".product-tile-controls");
+const productTileControls = document.querySelectorAll('.product-tile-controls');
 productTileControls.forEach((productTileControl, index) => {
   ReactDOM.createRoot(productTileControl).render(
     <ProductControls productId={index}></ProductControls>,
-    productTileControl
+    productTileControl,
   );
 });
 
@@ -296,7 +296,7 @@ class HeaderCounters extends React.Component {
   }
 
   showProducts = (collectionName, displayName) => {
-    let message = "";
+    let message = '';
 
     if (this.state[collectionName].length <= 0) {
       message = `There are no products in your ${displayName}`;
@@ -320,7 +320,7 @@ class HeaderCounters extends React.Component {
           <li
             className="header-counter"
             onClick={() => {
-              this.showProducts("wishlistItems", "wishlist");
+              this.showProducts('wishlistItems', 'wishlist');
             }}
           >
             <span className="qty">{this.state.wishlistItemsCount}</span>
@@ -330,7 +330,7 @@ class HeaderCounters extends React.Component {
           <li
             className="header-counter"
             onClick={() => {
-              this.showProducts("cartItems", "cart");
+              this.showProducts('cartItems', 'cart');
             }}
           >
             <span className="qty">{this.state.cartItemsCount}</span>
@@ -342,5 +342,5 @@ class HeaderCounters extends React.Component {
   }
 }
 
-const headerCounters = document.querySelector(".header-counters-account");
+const headerCounters = document.querySelector('.header-counters-account');
 ReactDOM.createRoot(headerCounters).render(<HeaderCounters></HeaderCounters>);
