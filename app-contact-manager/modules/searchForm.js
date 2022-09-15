@@ -20,7 +20,7 @@ searchForm.addEventListener('submit', (event) => {
   const contactsCount = contacts.length;
 
   if (contactsCount <= 0) {
-    addMessage(render('No contacts found.', 'warning'));
+    addMessage(render('No contacts found.', 'warning', 'div'));
   } else {
     addMessage(
       render(
@@ -29,6 +29,7 @@ searchForm.addEventListener('submit', (event) => {
           many: 'contacts',
         })}.`,
         'success',
+        'div',
       ),
     );
   }
