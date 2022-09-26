@@ -1,5 +1,5 @@
-export default (message = '', type = 'primary') => {
-  const messageContainer = document.createElement('div');
+export default (message = '', type = 'primary', element = 'div') => {
+  const messageContainer = document.createElement(element);
   messageContainer.classList.add(
     'alert',
     `alert-${type}`,

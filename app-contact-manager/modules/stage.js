@@ -6,10 +6,13 @@ import {
   deletePet,
   editContact,
   getContact,
+  editPet,
 } from './query.js';
 import renderMessage from './message.js';
 import { render as renderEditContact } from './editContact.js';
 import { render as renderAddPet } from './addPet.js';
+import { clearStage } from './clearStage.js';
+import { render as renderEditPet } from './editPet.js';
 
 const stage = document.querySelector('.stage');
 
@@ -31,7 +34,12 @@ stage.addEventListener('click', (event) => {
 
   deleteContact(contactId);
 
-  parent.remove();
+  const confirmDeleteFriend = confirm('Do you want to delete your friend?');
+
+  if (confirmDeleteFriend) {
+    parent.remove();
+  }
+
   addMessage(renderMessage('Contact removed', 'success'));
 });
 
@@ -56,7 +64,7 @@ stage.addEventListener('click', (event) => {
   }
 
   clearMessages();
-  stage.innerHTML = '';
+  clearStage(stage);
   stage.append(renderEditContact(contact));
 });
 
@@ -71,7 +79,7 @@ stage.addEventListener('click', (event) => {
     return;
   }
 
-  stage.innerHTML = '';
+  clearStage(stage);
 });
 
 // add contact button
@@ -97,9 +105,13 @@ stage.addEventListener('submit', (event) => {
   addContact(contact);
 
   addMessage(
-    renderMessage(`Contact ${name.value} ${surname.value} created.`, 'success'),
+    renderMessage(
+      `Contact ${name.value} ${surname.value} was created.`,
+      'success',
+    ),
   );
-  stage.innerHTML = '';
+
+  clearStage(stage);
 });
 
 // save edit contact
@@ -143,7 +155,7 @@ stage.addEventListener('click', (event) => {
   const contactId = contactContainer.dataset.contactId;
 
   clearMessages();
-  stage.innerHTML = '';
+  clearStage(stage);
 
   stage.append(renderAddPet(contactId));
 });
@@ -172,7 +184,7 @@ stage.addEventListener('submit', (event) => {
 
   addPet(contactId.value, pet);
 
-  stage.innerHTML = '';
+  clearStage(stage);
   addMessage(
     renderMessage(
       `Pet ${name.value} added to contact ${contactName} ${contactSurname}.`,
@@ -180,6 +192,8 @@ stage.addEventListener('submit', (event) => {
     ),
   );
 });
+
+// edit pet
 
 // delete pet button
 stage.addEventListener('click', (event) => {

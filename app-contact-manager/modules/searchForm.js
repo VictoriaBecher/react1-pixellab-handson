@@ -6,6 +6,7 @@ import { pluralize } from './utils.js';
 import stage from './stage.js';
 // do not ommit {} for named exports
 import { render as renderContact } from './contact.js';
+import { clearStage } from './clearStage.js';
 
 const searchForm = document.querySelector('.search-form');
 //  search-form input[name="q"]
@@ -19,7 +20,7 @@ searchForm.addEventListener('submit', (event) => {
 
   clearMessages();
 
-  const contacts = findContact(queryInput.value.toLowerCase());
+  const contacts = findContact(queryInput.value.toLowerCase().trim());
   const contactsCount = contacts.length;
   const fragment = new DocumentFragment();
 
@@ -27,8 +28,19 @@ searchForm.addEventListener('submit', (event) => {
     fragment.append(renderContact(contact));
   });
 
+  if (queryInput.value.length <= 3) {
+    addMessage(render('Please enter more than 3 characters', 'warning', 'div'));
+    return;
+  }
+
   if (contactsCount <= 0) {
-    addMessage(render('No contacts found.', 'warning'));
+    addMessage(
+      render(
+        `No contacts found for your search term: ${queryInput.value}`,
+        'warning',
+        'div',
+      ),
+    );
   } else {
     const petsCount = contacts.reduce((petsCount, contact) => {
       const { pets = [] } = contact;
@@ -49,14 +61,15 @@ searchForm.addEventListener('submit', (event) => {
                 one: 'pet',
                 many: 'pets',
               })
-        }.`,
+        }. Your search term was: '${queryInput.value}'`,
         'success',
+        'div',
       ),
     );
   }
 
   queryInput.value = '';
-  stage.innerHTML = '';
+  clearStage(stage);
   stage.append(fragment);
 });
 

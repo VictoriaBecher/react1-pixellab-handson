@@ -1,4 +1,7 @@
+import { clearStage } from './clearStage.js';
 import contacts from './data.js';
+import { addMessage } from './notificationBar.js';
+import render from './message.js';
 
 export const findContact = (needle = 'query') => {
   const results = contacts.filter((contact) => {
@@ -51,6 +54,18 @@ export const getContact = (contactId) => {
   });
 };
 
+export const getPet = (contactId, petId) => {
+  const contact = getContact(contactId);
+
+  if (!contact.pets) {
+    return;
+  }
+
+  // ?????????
+
+  return pet;
+};
+
 export const addContact = (contact) => {
   // push mutates
   contacts.push(contact);
@@ -76,6 +91,9 @@ export const addPet = (contactId, pet) => {
   contact.pets.push(pet);
 };
 
+// edit pet incercari
+//
+
 // delete pet
 export const deletePet = (contactId, petId) => {
   const contact = getContact(contactId);
@@ -97,5 +115,6 @@ export const deletePet = (contactId, petId) => {
   if (petIndex >= 0) {
     // splice mutates
     contact.pets.splice(petIndex, 1);
+    addMessage(render('Your pet was deleted', 'danger', 'div'));
   }
 };
